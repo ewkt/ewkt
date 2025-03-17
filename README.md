@@ -1,4 +1,4 @@
-## Hi there 👋
+## Hi! check out my public repos bellow!
 
 <!--
 **ewkt/ewkt** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
