@@ -1,5 +1,7 @@
 ## Hi! check out my public repos bellow!
 
+![](https://komarev.com/ghpvc/?username=ewkt&color=orange)
+
 <!--
 **ewkt/ewkt** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
