@@ -19,6 +19,7 @@ today = datetime.now().strftime("%d/%m/%y")
 
 # File to store the view counts
 file_path = "profile_views/data/view_counts.csv"
+os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
 yesterday_view_count = 0
 new_views = 0
