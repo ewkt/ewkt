@@ -30,11 +30,12 @@ jobs:
       run: python profile_views/profile_view_counter.py
 
     - name: Commit and push changes
+      env:
+        PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git remote set-url origin https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/ewkt/ewkt.git
         git add views.png view_counts.csv
         git commit -m "Daily refresh"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        git push origin HEAD:main
