@@ -36,6 +36,6 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git remote set-url origin https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/ewkt/ewkt.git
-        git add views.png view_counts.csv
+        git add profile_views/views.png profile_views/view_counts.csv
         git commit -m "Daily refresh"
         git push origin HEAD:main
