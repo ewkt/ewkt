@@ -18,7 +18,7 @@ view_count = int(texts[-1].text.strip())
 today = datetime.now().strftime("%Y-%m-%d")
 
 #file to store the view counts
-file_path = "view_counts.csv"
+file_path = "profile_views/view_counts.csv"
 
 yesterday_view_count = 0
 new_views = 0
@@ -52,4 +52,4 @@ with open(file_path, "r") as file:
 #plot the data using plotly
 fig = px.line(x=dates, y=daily_views, labels={'x': 'Date', 'y': 'Views'}, title='GitHub Profile Views (Daily)')
 fig.update_layout(xaxis_title='Date', yaxis_title='Views')
-fig.write_image("views.png")
+fig.write_image("profile_views/views.png")
