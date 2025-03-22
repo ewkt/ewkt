@@ -50,7 +50,7 @@ with open(file_path, "r") as file:
         daily_views.append(int(row[2]))
 
 #plot the data using plotly
-fig = px.line(x=dates, y=daily_views, labels={'x': 'Date', 'y': 'Views'}, title='ewkt's daily gitHub profile views')
+fig = px.line(x=dates, y=daily_views, labels={'x': 'Date', 'y': 'Views'}, title="ewkt's daily github profile views")
 fig.update_traces(line=dict(color='blue'))
 fig.update_layout(
     plot_bgcolor='white',
