@@ -50,6 +50,22 @@ with open(file_path, "r") as file:
         daily_views.append(int(row[2]))
 
 #plot the data using plotly
-fig = px.line(x=dates, y=daily_views, labels={'x': 'Date', 'y': 'Views'}, title='GitHub Profile Views (Daily)')
-fig.update_layout(xaxis_title='Date', yaxis_title='Views')
+fig = px.line(x=dates, y=daily_views, labels={'x': 'Date', 'y': 'Views'}, title='ewkt's daily gitHub profile views')
+fig.update_traces(line=dict(color='blue'))
+fig.update_layout(
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    xaxis=dict(
+        title='Date',
+        showgrid=False,
+        tickformat='%d/%m/%y'
+    ),
+    yaxis=dict(
+        title='Views',
+        showgrid=False
+    ),
+    title=dict(
+        x=0.5
+    )
+)
 fig.write_image("profile_views/views.png")
