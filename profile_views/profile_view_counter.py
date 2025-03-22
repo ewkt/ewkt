@@ -5,26 +5,26 @@ from datetime import datetime, timedelta
 import csv
 import os
 
-#fetch the current view count from the URL
+# Fetch the current view count from the URL
 url = "https://komarev.com/ghpvc/?username=ewkt"
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "xml")
 
-#extract the view count
+# Extract the view count
 texts = soup.find_all("text")
 view_count = int(texts[-1].text.strip())
 
-#get today's date in a format comprehensible for plotly
-today = datetime.now().strftime("%Y-%m-%d")
+# Get today's date in a format comprehensible for plotly
+today = datetime.now().strftime("%d/%m/%y")
 
-#file to store the view counts
+# File to store the view counts
 file_path = "profile_views/view_counts.csv"
 
 yesterday_view_count = 0
 new_views = 0
 
 if os.path.exists(file_path):
-    #read the last entry from the file to get yesterday's view count
+    # Read the last entry from the file to get yesterday's view count
     with open(file_path, "r") as file:
         reader = csv.reader(file)
         rows = list(reader)
@@ -34,12 +34,12 @@ if os.path.exists(file_path):
 
 new_views = view_count - yesterday_view_count
 
-#append today's values to the file
+# Append today's values to the file
 with open(file_path, "a", newline="") as file:
     writer = csv.writer(file)
     writer.writerow([today, view_count, new_views])
 
-#read the data from the file for plotting
+# Read the data from the file for plotting
 dates = []
 daily_views = []
 
@@ -49,8 +49,8 @@ with open(file_path, "r") as file:
         dates.append(row[0])
         daily_views.append(int(row[2]))
 
-#plot the data using plotly
-fig = px.line(x=dates, y=daily_views, labels={'x': 'Date', 'y': 'Views'}, title="ewkt's daily github profile views")
+# Plot the data using plotly
+fig = px.line(x=dates, y=daily_views, labels={'x': 'Date', 'y': 'Views'}, title='GitHub Profile Views (Daily)')
 fig.update_traces(line=dict(color='blue'))
 fig.update_layout(
     plot_bgcolor='white',
@@ -68,4 +68,27 @@ fig.update_layout(
         x=0.5
     )
 )
-fig.write_image("profile_views/views.png")
+fig.write_image("profile_views/views_light.png")
+
+fig.update_traces(line=dict(color='orange'))
+fig.update_layout(
+    plot_bgcolor='#0d1117',
+    paper_bgcolor='#0d1117',
+    font_color='white',
+    xaxis=dict(
+        title='Date',
+        showgrid=False,
+        tickformat='%d/%m/%y',
+        color='white'
+    ),
+    yaxis=dict(
+        title='Views',
+        showgrid=False,
+        color='white'
+    ),
+    title=dict(
+        x=0.5,
+        font=dict(color='white')
+    )
+)
+fig.write_image("profile_views/views_dark.png")
