@@ -1,33 +1,32 @@
 import requests
 import plotly.express as px
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
+from datetime import datetime
 import csv
 import os
 
-# Fetch the current view count from the URL
+#extract view count from the URL
 url = "https://komarev.com/ghpvc/?username=ewkt"
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "xml")
-
-# Extract the view count
 texts = soup.find_all("text")
 view_count = int(texts[-1].text.strip())
 
-# Get today's date in a format comprehensible for plotly
+#today's date
 today = datetime.now().strftime("%d/%m/%y")
 
-# File to store the view counts
+#file to store the view counts
 file_path = "profile_views/data/view_counts.csv"
 os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
 yesterday_view_count = 0
 new_views = 0
 
-if os.path.exists(file_path):
-    # Read the last entry from the file to get yesterday's view count
+#check if the file exists and is not empty
+if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
     with open(file_path, "r") as file:
         reader = csv.reader(file)
+        header = next(reader, None)
         rows = list(reader)
         if rows:
             last_row = rows[-1]
@@ -35,22 +34,28 @@ if os.path.exists(file_path):
 
 new_views = view_count - yesterday_view_count
 
-# Append today's values to the file
+#append today's values to the file
+file_exists = os.path.exists(file_path)
+write_header = not file_exists or os.path.getsize(file_path) == 0
+
 with open(file_path, "a", newline="") as file:
     writer = csv.writer(file)
+    if write_header:
+        writer.writerow(['date', 'view_count', 'new_views'])
     writer.writerow([today, view_count, new_views])
 
-# Read the data from the file for plotting
+#read all the data from the file for plotting
 dates = []
 daily_views = []
 
 with open(file_path, "r") as file:
     reader = csv.reader(file)
+    header = next(reader, None)
     for row in reader:
         dates.append(row[0])
         daily_views.append(int(row[2]))
 
-# Plot the data using plotly
+#plot the data using plotly
 fig = px.line(x=dates, y=daily_views, labels={'x': 'Date', 'y': 'Views'}, title='Daily GitHub Profile Views')
 fig.update_traces(line=dict(color='blue'))
 fig.update_layout(
